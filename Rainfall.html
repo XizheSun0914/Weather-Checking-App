@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
+</head>
+
+<body>
+    <h2 align="center"> Sample data analysis for Vancouver </h2>
+	<canvas id="myChart"></canvas>
+
+	<script>
+		function processData(myData) {
+			// create empty arrays for my chart values and labels
+			var myValues = [];
+			var myLabels = [];
+			var myColor = [];
+
+			// use a loop to fill the arrays with our data
+			for (i in myData) {
+				myLabels[i] = myData[i].Month;
+				myValues[i] = myData[i].Rainfall;
+				
+			}
+
+			console.log(myLabels);
+			
+			// use the Chart.js library to draw the chart
+			var myChart = new Chart($("#myChart"), {
+				type: 'bar', // try other types: line, bar, pie, doughnut, polarArea
+				data: {
+					labels: myLabels,
+					datasets: [{
+						data: myValues,
+						backgroundColor: '#2828FF',
+						label: "Rainfall (in mm)"
+					}]
+				},
+				"options":{"scales":{"yAxes":[{"ticks":{ "beginAtZero": true }}]}}
+			});
+		}
+
+		// use the jQuery library to grab the data from our spreadsheet API and call processData(myData)
+		//http://danycabrera.com/csc130/proxy.php?key=10iWmMVuR4ryXBJ8RTSBeCDfrdwGzT7P5Q49vf3ahuyU&sheet=Sheet3"
+		
+		
+		$(document).ready(function() {
+			$.getJSON("http://danycabrera.com/csc130/proxy.php?key=10iWmMVuR4ryXBJ8RTSBeCDfrdwGzT7P5Q49vf3ahuyU&sheet=Sheet1", 
+				processData);
+		});
+	</script>
+</body>
+</html>
+

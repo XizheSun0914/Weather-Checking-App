@@ -1,0 +1,48 @@
+<html>
+<head>
+    <meta charset="utf-8">
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
+</head>
+
+<body>
+    <canvas id="myChart"></canvas>
+
+    <script>
+        function processData(myData) {
+            
+            var myValues = [];
+            var myLabels = [];
+
+           
+            for (var i = 0 ; i < myData.length; i++) {
+                myLabels[i] = myData[i].City;
+                myValues[i] = myData[i].Number;
+            }
+
+          
+            var myChart = new Chart($("#myChart"), {
+                type: 'bar', // try other types: line, bar, pie, doughnut, polarArea
+                data: {
+                    labels: myLabels,
+                    datasets: [{
+                        data: myValues,
+                        backgroundColor: ["#FFA500", "#FFF000",  "#006400", "#000000", "#A52A2A", "#800000", "#999900", "#FFFF33", "#B22222", , "#8B4513", "#FF0000", "#8B008B" ],
+                        label: "Total Searches"
+                    }]
+                },
+                "options":{"scales":{"yAxes":[{"ticks":{ "beginAtZero": true }}]}}
+            });
+        }
+
+        // use the jQuery library to grab the data from our spreadsheet API and call processData(myData)
+        $(document).ready(function() {
+            $.getJSON("http://danycabrera.com/csc130/proxy.php?key=13rY8ecEKF6pcJh5UWL7Vfqr2ewHkJqcXmbyq_3z80Sg&sheet=Sheet1", 
+
+                processData);
+        });
+    </script>
+</body>
+</html>
+
